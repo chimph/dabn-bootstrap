@@ -1,0 +1,24 @@
+{
+  "payload": {
+    "schema": 2,
+    "issued_at": 1786489392,
+    "expires_at": 1786662192,
+    "seeds": [
+      {
+        "operator": "chimph",
+        "endpoint": "linode-syd",
+        "peer_id": "12D3KooWCcnhLcmarNdedR1De2Pft5YiWi6yrLwkw1WBALEXEs3y",
+        "addresses": [
+          "/ip4/172.105.189.185/tcp/4001/p2p/12D3KooWCcnhLcmarNdedR1De2Pft5YiWi6yrLwkw1WBALEXEs3y",
+          "/ip4/172.105.189.185/udp/4001/quic-v1/p2p/12D3KooWCcnhLcmarNdedR1De2Pft5YiWi6yrLwkw1WBALEXEs3y"
+        ]
+      }
+    ]
+  },
+  "signatures": [
+    {
+      "key_id": "official-2026-01",
+      "signature": "5067b2c88d9a7c7f51ea55466f7b9a7302f2cdb9c82345fdea6c93612a3db23e3432e03bc68438ecd2f03c5a9d9e394e3d165c270486ff2a2b0228a3839b080d"
+    }
+  ]
+}
