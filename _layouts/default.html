@@ -29,11 +29,20 @@
       <span class="header-status"><span class="status-dot"></span> invited beta</span>
     </header>
 
-    <nav class="section-nav" aria-label="Page sections">
-      {%- for section in site.data.sections %}
-      <a href="#{{ section.id }}">{{ section.label }}</a>
-      {%- endfor %}
-    </nav>
+    <details class="section-menu">
+      <summary>
+        <span class="section-menu-bar">
+          <span class="section-menu-eyebrow">Contents</span>
+          <span class="section-menu-current">Overview</span>
+          <span class="section-menu-chevron" aria-hidden="true"></span>
+        </span>
+      </summary>
+      <nav class="section-menu-list" aria-label="Page sections">
+        {%- for section in site.data.sections %}
+        <a href="#{{ section.id }}"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ section.label }}</a>
+        {%- endfor %}
+      </nav>
+    </details>
 
     <main class="document-grid">
       <nav class="rail" aria-label="Document index">
@@ -53,11 +62,16 @@
     </footer>
 
     <script>
-      // Highlights the section index entry for whatever heading you are reading.
-      // Progressive enhancement: without it the index still navigates normally.
+      // Highlights the section index entry for whatever heading you are reading,
+      // and names it on the collapsed mobile menu. Progressive enhancement: the
+      // index still navigates without any of this, and <details> opens on its own.
       (function () {
-        var links = document.querySelectorAll('.rail a, .section-nav a');
+        var links = document.querySelectorAll('.rail a, .section-menu-list a');
         if (!links.length) return;
+
+        var menu = document.querySelector('.section-menu');
+        var label = document.querySelector('.section-menu-current');
+        var labelDefault = label ? label.textContent : '';
 
         var groups = [];
         var byId = {};
@@ -66,7 +80,14 @@
           var heading = document.getElementById(id);
           if (!heading) return;
           if (!byId[id]) {
-            byId[id] = { heading: heading, links: [] };
+            // Links are "<span>NN</span>Label", so the trailing text node is the
+            // label on its own, without the ordinal.
+            var text = link.lastChild && link.lastChild.nodeValue;
+            byId[id] = {
+              heading: heading,
+              label: (text || link.textContent).trim(),
+              links: []
+            };
             groups.push(byId[id]);
           }
           byId[id].links.push(link);
@@ -77,7 +98,9 @@
         function update() {
           ticking = false;
           var line = window.innerHeight * 0.2;
-          var current = groups[0];
+          // Null until the first heading passes the line, so the title and intro
+          // are reported as the overview rather than as the first section.
+          var current = null;
           for (var i = 0; i < groups.length; i++) {
             if (groups[i].heading.getBoundingClientRect().top > line) break;
             current = groups[i];
@@ -90,7 +113,8 @@
           if (atBottom) current = groups[groups.length - 1];
           if (current === active) return;
           if (active) active.links.forEach(function (l) { l.removeAttribute('aria-current'); });
-          current.links.forEach(function (l) { l.setAttribute('aria-current', 'true'); });
+          if (current) current.links.forEach(function (l) { l.setAttribute('aria-current', 'true'); });
+          if (label) label.textContent = current ? current.label : labelDefault;
           active = current;
         }
 
@@ -99,6 +123,22 @@
           if (ticking) return;
           ticking = true;
           requestAnimationFrame(update);
+        }
+
+        if (menu) {
+          function close() {
+            menu.removeAttribute('open');
+          }
+          // Choosing a section, pressing Escape, or tapping the page dismisses it.
+          Array.prototype.forEach.call(menu.querySelectorAll('a'), function (link) {
+            link.addEventListener('click', close);
+          });
+          document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') close();
+          });
+          document.addEventListener('click', function (event) {
+            if (menu.open && !menu.contains(event.target)) close();
+          });
         }
 
         update();

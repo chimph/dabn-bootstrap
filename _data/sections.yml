@@ -1,6 +1,11 @@
 # Single source of truth for the document index.
 # Rendered twice by _layouts/default.html: the desktop rail and the mobile
-# section nav. Keep `id` in sync with the kramdown-generated heading anchors.
+# section menu. Keep `id` in sync with the kramdown-generated heading anchors.
+#
+# This is a curated list of places a reader navigates to, not a mirror of every
+# h2. End matter that nobody seeks out (the licence line, the crate table) is
+# left off deliberately; it is still reachable by scrolling. Entries must stay
+# in document order, because the scroll indicator walks them in sequence.
 - id: backup-and-custody-model
   label: Backup model
 - id: terminal-and-web-dashboard
@@ -23,7 +28,3 @@
   label: Recovery
 - id: use-it-manually-or-through-an-ai-agent
   label: Agent use
-- id: workspace-layout
-  label: Workspace
-- id: license
-  label: License
