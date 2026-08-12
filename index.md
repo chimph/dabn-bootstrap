@@ -32,14 +32,16 @@ and build local trust from observed service rather than self-reported claims.
   Nodes continuously challenge guardians to prove they still hold what they
   promised, and placement prefers peers with a locally witnessed history of
   successful checks.
-- **Your storage pledge is a capacity promise, not reserved space.** The default
-  is 15 GiB, used gradually as encrypted fragments arrive. The stock client
-  prevents lowering it below 3× the retained vault or below fragments already
-  held, checks that it fits the disk, and preserves a 2 GiB free-space floor.
-  If other software later consumes the space, DABN keeps existing fragments but
-  refuses new ones, senders try other guardians, and new backup growth pauses
-  until the pledge is credible again. These are local guardrails, not yet proof
-  to other nodes; that distinction is why the beta remains invited.
+- **Your storage pledge is a capacity promise, not reserved space.** You decide
+  how much to offer, and you can raise it whenever you want to protect more. The
+  space fills gradually, as encrypted fragments arrive. The stock client will not
+  let you lower the pledge below what your own vault and the fragments you
+  already hold require, checks that it fits the disk, and keeps a free-space
+  margin in reserve. If other software later consumes the space, DABN keeps
+  existing fragments but refuses new ones, senders try other guardians, and new
+  backup growth pauses until the pledge is credible again. These are local
+  guardrails, not yet proof to other nodes; that distinction is why the beta
+  remains invited.
 - **Your 24-word recovery phrase is the root recovery secret.** It can recreate
   the node identity and vault keys on a replacement machine. A running node
   keeps working key material in its protected data directory, so host and
@@ -50,10 +52,7 @@ and build local trust from observed service rather than self-reported claims.
 Public-network startup obtains bootstrap peers from a signed, regularly
 refreshed official directory and fails closed unless the resulting set is
 sufficiently diverse and the node passes its local safety checks. Manual peers
-can supplement the directory. `--controlled` is reserved
-for explicitly private deployments and formation of the initial infrastructure
-set. See the public rollout runbook for the staged
-admission policy.
+can supplement the directory.
 
 ## Terminal and web dashboard
 
