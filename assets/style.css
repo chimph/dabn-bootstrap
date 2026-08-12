@@ -79,64 +79,6 @@ main {
   text-transform: uppercase;
 }
 
-.network-strip {
-  width: min(1080px, calc(100% - 64px));
-  margin: 58px auto 0;
-  padding: 22px 26px;
-  display: grid;
-  grid-template-columns: 1fr 90px 1fr 90px 1fr;
-  align-items: center;
-  gap: 18px;
-  border: 1px solid #26333e;
-  border-radius: 7px;
-  background:
-    linear-gradient(90deg, rgba(20, 184, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(rgba(20, 184, 255, 0.025) 1px, transparent 1px),
-    #0b1117;
-  background-size: 28px 28px;
-}
-
-.network-strip div {
-  min-width: 0;
-}
-
-.network-strip span,
-.network-strip strong {
-  display: block;
-  font-family: var(--mono);
-}
-
-.network-strip span {
-  margin-bottom: 6px;
-  color: var(--cyan);
-  font-size: 9px;
-  letter-spacing: 0.15em;
-}
-
-.network-strip strong {
-  color: #aebbc6;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.network-strip i {
-  height: 1px;
-  position: relative;
-  background: linear-gradient(90deg, rgba(20, 184, 255, 0.15), rgba(20, 184, 255, 0.75));
-}
-
-.network-strip i::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: -3px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--cyan);
-  box-shadow: 0 0 12px rgba(20, 184, 255, 0.7);
-}
-
 .status-dot {
   width: 6px;
   height: 6px;
@@ -676,7 +618,6 @@ footer {
 @media (max-width: 680px) {
   .site-header,
   .hero,
-  .network-strip,
   .document-grid,
   footer {
     width: min(100% - 34px, 1200px);
@@ -684,25 +625,6 @@ footer {
 
   .site-header {
     height: 64px;
-  }
-
-  .network-strip {
-    margin-top: 34px;
-    padding: 18px;
-    grid-template-columns: 1fr;
-  }
-
-  .network-strip i {
-    width: 1px;
-    height: 28px;
-    margin-left: 4px;
-    background: linear-gradient(rgba(20, 184, 255, 0.15), rgba(20, 184, 255, 0.75));
-  }
-
-  .network-strip i::after {
-    right: -3px;
-    top: auto;
-    bottom: 0;
   }
 
   .hero {
