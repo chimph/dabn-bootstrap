@@ -5,3 +5,8 @@ baseurl: /dabn-bootstrap
 markdown: kramdown
 kramdown:
   input: GFM
+
+# Source for assets/og.png, not part of the published site. Underscore-prefixed
+# directories are skipped anyway; this makes it explicit.
+exclude:
+  - _tools
