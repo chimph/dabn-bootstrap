@@ -67,25 +67,6 @@ The same operational state is available in the loopback-only web dashboard:
 
 ![DABN web dashboard showing a replicated vault, guardians, peer paths, storage pledge, and custody log](docs/images/dabn-web-dashboard.png)
 
-## Documentation
-
-- Installation and tester guide
-- Background services and
-  agent-assisted operation
-- Infrastructure nodes and
-  public rollout
-- Architecture and operations index
-- Validation report and security policy
-- Changelog, roadmap, and
-  contributing guide
-
-For development, `cargo build --release` places the binary at
-`target/release/dabn`. The canonical test split is documented in
-CONTRIBUTING.md; CI enforces formatting, Clippy with warnings
-denied, the test suites, and RustSec auditing. See
-docs/versioning.md for the software and network-protocol
-version policy.
-
 ## Where your node lives (and moving it)
 
 The data directory **is** the node: identity key, config, the encrypted
@@ -116,7 +97,7 @@ default. Local disks only: SQLite locking is unreliable on network filesystems.
 dabn init                  # first run: creates the node and shows its phrase once
 dabn confirm-recovery      # clears the terminal, then verifies your off-node copy
 dabn protect ~/some/dir    # protect a folder: adds it AND backs it up now
-dabn service install --controlled  # private trial: keep it running after logout/reboot
+dabn service install       # keep it running after logout/reboot
 dabn snapshot              # optional: capture changes now (also automatic daily)
 dabn status                # health, peers, replication progress, and change freshness
 dabn status --watch        # live monitor view (q to quit; auto-refreshes every 2s)
