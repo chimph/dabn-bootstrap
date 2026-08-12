@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css?v={{ site.time | date: '%s' }}">
   </head>
   <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
     <header class="site-header">
       <a class="brand" href="{{ site.baseurl }}/" aria-label="DABN home">
         <span class="brand-mark" aria-hidden="true"></span>
@@ -28,29 +30,19 @@
     </header>
 
     <nav class="section-nav" aria-label="Page sections">
-      <a href="#backup-and-custody-model">Backup model</a>
-      <a href="#terminal-and-web-dashboard">Interfaces</a>
-      <a href="#your-vault">The vault</a>
-      <a href="#connect-peers">Peer network</a>
-      <a href="#bootstrap-seeds-and-bridges">Bridges</a>
-      <a href="#standing-ranks-and-trust-tiers">Standing</a>
-      <a href="#recover-after-total-loss-resurrection">Recovery</a>
-      <a href="#use-it-manually-or-through-an-ai-agent">Agent use</a>
+      {%- for section in site.data.sections %}
+      <a href="#{{ section.id }}">{{ section.label }}</a>
+      {%- endfor %}
     </nav>
 
     <main class="document-grid">
-      <aside class="rail" aria-label="Document index">
+      <nav class="rail" aria-label="Document index">
         <p>README</p>
-        <a href="#backup-and-custody-model"><span>01</span>Backup model</a>
-        <a href="#terminal-and-web-dashboard"><span>02</span>Interfaces</a>
-        <a href="#your-vault"><span>03</span>The vault</a>
-        <a href="#connect-peers"><span>04</span>Peer network</a>
-        <a href="#bootstrap-seeds-and-bridges"><span>05</span>Bridges</a>
-        <a href="#standing-ranks-and-trust-tiers"><span>06</span>Standing</a>
-        <a href="#recover-after-total-loss-resurrection"><span>07</span>Recovery</a>
-        <a href="#use-it-manually-or-through-an-ai-agent"><span>08</span>Agent use</a>
-      </aside>
-      <article class="readme">
+        {%- for section in site.data.sections %}
+        <a href="#{{ section.id }}"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>{{ section.label }}</a>
+        {%- endfor %}
+      </nav>
+      <article class="readme" id="content">
         {{ content }}
       </article>
     </main>
@@ -59,5 +51,60 @@
       <span>DABN</span>
       <span>MIT OR Apache-2.0</span>
     </footer>
+
+    <script>
+      // Highlights the section index entry for whatever heading you are reading.
+      // Progressive enhancement: without it the index still navigates normally.
+      (function () {
+        var links = document.querySelectorAll('.rail a, .section-nav a');
+        if (!links.length) return;
+
+        var groups = [];
+        var byId = {};
+        Array.prototype.forEach.call(links, function (link) {
+          var id = decodeURIComponent(link.hash.slice(1));
+          var heading = document.getElementById(id);
+          if (!heading) return;
+          if (!byId[id]) {
+            byId[id] = { heading: heading, links: [] };
+            groups.push(byId[id]);
+          }
+          byId[id].links.push(link);
+        });
+        if (!groups.length) return;
+
+        var active = null;
+        function update() {
+          ticking = false;
+          var line = window.innerHeight * 0.2;
+          var current = groups[0];
+          for (var i = 0; i < groups.length; i++) {
+            if (groups[i].heading.getBoundingClientRect().top > line) break;
+            current = groups[i];
+          }
+          // A short final section never reaches the line, so claim it once the
+          // page is scrolled to the bottom.
+          var atBottom =
+            window.scrollY + window.innerHeight >=
+            document.documentElement.scrollHeight - 2;
+          if (atBottom) current = groups[groups.length - 1];
+          if (current === active) return;
+          if (active) active.links.forEach(function (l) { l.removeAttribute('aria-current'); });
+          current.links.forEach(function (l) { l.setAttribute('aria-current', 'true'); });
+          active = current;
+        }
+
+        var ticking = false;
+        function schedule() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+
+        update();
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule, { passive: true });
+      })();
+    </script>
   </body>
 </html>
