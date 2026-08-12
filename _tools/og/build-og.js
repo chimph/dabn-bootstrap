@@ -1,7 +1,17 @@
-// Builds assets/og.png, the social preview card, from the same wordmark, node
-// glyph and gradient the TUI uses, so a shared link and `dabn up` show the same
-// thing. The constants below are copied verbatim from the dabn repository, at
+// Builds assets/og.png, the social preview card, from the same wordmark and
+// gradient the TUI prints, so a shared link and `dabn up` look like the same
+// product. WORD and grad() are copied verbatim from the dabn repository, at
 // crates/dabn-cli/src/banner.rs; re-copy them if that file changes.
+//
+// Two deliberate departures from the terminal rendering:
+//
+//   * The node glyph that sits beside the wordmark in the TUI is left off, so
+//     the gradient is spread across the wordmark's own columns. banner.rs
+//     divides by the width of the wordmark plus the glyph, which here would
+//     stop the ramp partway and end on a mid-blue instead of cyan.
+//   * SCALE_Y stretches the rows. A terminal cell is taller than it is wide,
+//     but CSS line-height only adds leading, which would pull the block rows
+//     apart; scaling the glyphs keeps them touching at terminal proportions.
 //
 // Regenerate (writes og.html here, then rasterises it at 2x):
 //
@@ -25,19 +35,6 @@ const WORD = [
   '██████╔╝██║  ██║██████╔╝██║ ╚████║',
   '╚═════╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═══╝',
 ];
-const GLYPH = [
-  ' ●   ● ',
-  '  ╲ ╱  ',
-  '●──●──●',
-  '  ╱ ╲  ',
-  ' ●   ● ',
-  '       ',
-];
-
-const chars = (s) => [...s].length;
-const ww = Math.max(...WORD.map(chars));
-const gw = Math.max(...GLYPH.map(chars));
-const total = Math.max(ww + 2 + gw, 2);
 
 // grad(): #2f6bff -> #22d3ee, same lerp as the Rust
 function grad(t) {
@@ -46,23 +43,24 @@ function grad(t) {
   return `rgb(${l(47, 34)},${l(107, 211)},${l(255, 238)})`;
 }
 
+const chars = (s) => [...s].length;
+const cols = Math.max(...WORD.map(chars));
 const pad = (s, w) => s + ' '.repeat(Math.max(0, w - chars(s)));
 
-// One span per character, coloured by its column, exactly as render() does.
-function bannerHtml() {
-  return WORD.map((_, row) => {
-    const line = `${pad(WORD[row], ww)}  ${pad(GLYPH[row], gw)}`;
-    return [...line]
-      .map((ch, i) =>
-        ch === ' '
-          ? ' '
-          : `<span style="color:${grad(i / (total - 1))}">${
-              ch === '<' ? '&lt;' : ch === '&' ? '&amp;' : ch
-            }</span>`
-      )
-      .join('');
-  }).join('\n');
-}
+const FONT = 48; // px
+const SCALE_Y = 1.17; // terminal cell proportions, see above
+const ADVANCE = 0.6022; // Menlo advance width, in em
+const width = Math.round(cols * FONT * ADVANCE);
+const height = Math.round(WORD.length * FONT * SCALE_Y);
+
+// One span per character, coloured by its column.
+const banner = WORD.map((row) =>
+  [...pad(row, cols)]
+    .map((ch, i) =>
+      ch === ' ' ? ' ' : `<span style="color:${grad(i / (cols - 1))}">${ch}</span>`
+    )
+    .join('')
+).join('\n');
 
 const html = `<!doctype html>
 <html><head><meta charset="utf-8"><style>
@@ -73,42 +71,42 @@ const html = `<!doctype html>
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 42px;
     background:
       radial-gradient(circle at 78% 8%, rgba(20, 184, 255, 0.10), transparent 30rem),
       linear-gradient(180deg, #090e14 0, #080c11 100%);
     font-family: Menlo, "SF Mono", Monaco, monospace;
     -webkit-font-smoothing: antialiased;
   }
+  /* A transform does not affect layout, so the box reserves the scaled height. */
+  .banner-box {
+    display: flex;
+    align-items: center;
+    height: ${height}px;
+  }
   /* line-height 1 so the block rows meet and the box rules join up */
   pre.banner {
-    font-size: 41px;
+    font-size: ${FONT}px;
     line-height: 1;
-    letter-spacing: 0;
     white-space: pre;
+    transform: scaleY(${SCALE_Y});
   }
   .rule {
-    width: 1062px;
+    width: ${width}px;
     height: 1px;
     background: linear-gradient(90deg, rgba(47,107,255,0.55), rgba(34,211,238,0.55));
   }
   .sub {
     color: #dbe6f0;
-    font-size: 27px;
+    font-size: 29px;
     letter-spacing: 0.10em;
-  }
-  .tag {
-    color: #8593a1;
-    font-size: 18px;
-    letter-spacing: 0.06em;
   }
 </style></head>
 <body>
-  <pre class="banner">${bannerHtml()}</pre>
+  <div class="banner-box"><pre class="banner">${banner}</pre></div>
   <div class="rule"></div>
   <div class="sub">Distributed Agent Backup Network</div>
-  <div class="tag">Encrypted fragments. Witnessed custody. Local trust.</div>
 </body></html>`;
 
 fs.writeFileSync(path.join(__dirname, 'og.html'), html);
-console.log(`wordmark ${ww} cols, glyph ${gw} cols, ${total} total`);
+console.log(`wordmark ${cols} cols -> ${width}x${height}px at ${FONT}px, scaleY ${SCALE_Y}`);
