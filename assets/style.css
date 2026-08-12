@@ -146,7 +146,6 @@ main {
   z-index: 10;
   top: 0;
   display: none;
-  justify-content: center;
   overflow-x: auto;
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
@@ -164,6 +163,17 @@ main {
   text-decoration: none;
   text-transform: uppercase;
   transition: color 160ms ease, background 160ms ease;
+}
+
+/* Auto margins centre the row while it fits and collapse once it overflows.
+   `justify-content: center` would push the leading entries past the scroll
+   origin, where scrolling cannot reach them. */
+.section-nav a:first-of-type {
+  margin-left: auto;
+}
+
+.section-nav a:last-of-type {
+  margin-right: auto;
 }
 
 .section-nav a:hover,
@@ -448,10 +458,6 @@ footer {
 
   .site-header {
     height: 64px;
-  }
-
-  .section-nav {
-    justify-content: flex-start;
   }
 
   .document-grid {
