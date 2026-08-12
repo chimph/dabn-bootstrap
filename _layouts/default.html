@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080c11">
+    <title>{{ page.title | default: site.title }}</title>
+    <meta name="description" content="{{ page.description | default: site.description }}">
+    <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ page.title | default: site.title }}">
+    <meta property="og:description" content="Encrypted fragments. Witnessed custody. Local trust.">
+    <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}/">
+    <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/og.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title | default: site.title }}">
+    <meta name="twitter:description" content="Encrypted fragments. Witnessed custody. Local trust.">
+    <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/og.png">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="{{ site.baseurl }}/" aria-label="DABN home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        DABN
+      </a>
+      <span class="header-status"><span class="status-dot"></span> invited beta</span>
+    </header>
+
+    <section class="network-strip" aria-label="DABN network model">
+      <div><span>VAULT</span><strong>encrypted locally</strong></div>
+      <i aria-hidden="true"></i>
+      <div><span>GUARDIANS</span><strong>5 distributed peers</strong></div>
+      <i aria-hidden="true"></i>
+      <div><span>RECOVERY</span><strong>any 3 fragments</strong></div>
+    </section>
+
+    <nav class="section-nav" aria-label="Page sections">
+      <a href="#backup-and-custody-model">Backup model</a>
+      <a href="#terminal-and-web-dashboard">Interfaces</a>
+      <a href="#your-vault">The vault</a>
+      <a href="#connect-peers">Peer network</a>
+      <a href="#bootstrap-seeds-and-bridges">Bridges</a>
+      <a href="#standing-ranks-and-trust-tiers">Standing</a>
+      <a href="#recover-after-total-loss-resurrection">Recovery</a>
+      <a href="#use-it-manually-or-through-an-ai-agent">Agent use</a>
+    </nav>
+
+    <main class="document-grid">
+      <aside class="rail" aria-label="Document index">
+        <p>README</p>
+        <a href="#backup-and-custody-model"><span>01</span>Backup model</a>
+        <a href="#terminal-and-web-dashboard"><span>02</span>Interfaces</a>
+        <a href="#your-vault"><span>03</span>The vault</a>
+        <a href="#connect-peers"><span>04</span>Peer network</a>
+        <a href="#bootstrap-seeds-and-bridges"><span>05</span>Bridges</a>
+        <a href="#standing-ranks-and-trust-tiers"><span>06</span>Standing</a>
+        <a href="#recover-after-total-loss-resurrection"><span>07</span>Recovery</a>
+        <a href="#use-it-manually-or-through-an-ai-agent"><span>08</span>Agent use</a>
+      </aside>
+      <article class="readme">
+        {{ content }}
+      </article>
+    </main>
+
+    <footer>
+      <span>DABN</span>
+      <span>MIT OR Apache-2.0</span>
+    </footer>
+  </body>
+</html>

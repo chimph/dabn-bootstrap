@@ -1,0 +1,7 @@
+title: DABN — Distributed Agent Backup Network
+description: Peer-to-peer encrypted backup for AI-agent state and personal data, with witnessed custody and local trust.
+url: https://chimph.github.io
+baseurl: /dabn-bootstrap
+markdown: kramdown
+kramdown:
+  input: GFM
