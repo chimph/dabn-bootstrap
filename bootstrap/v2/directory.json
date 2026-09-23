@@ -1,8 +1,8 @@
 {
   "payload": {
     "schema": 2,
-    "issued_at": 1790063124,
-    "expires_at": 1790235924,
+    "issued_at": 1790149708,
+    "expires_at": 1790322508,
     "seeds": [
       {
         "operator": "chimph",
@@ -18,7 +18,7 @@
   "signatures": [
     {
       "key_id": "official-2026-01",
-      "signature": "208677d4c3caa28974f680cb9fce44f3e78e6e994647aca55324a9fca033ccc970b5ded2a185126758d9ef5b946068e33b207c4f9cc92b448efb5e77b2f00f07"
+      "signature": "5b17c0778c856b985ae804ca8ce75b61b9e7c120afe3b9ebefffc927c30b53be465c4ad0201b5e7d8f947fe0e679db4c1b1486d0b13c30eb490b6b11af30130d"
     }
   ]
 }
