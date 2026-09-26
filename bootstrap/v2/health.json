@@ -1,12 +1,12 @@
 {
   "schema": 2,
-  "generated_at": 1790322821,
+  "generated_at": 1790408812,
   "candidates": [
     {
       "peer_id": "12D3KooWCcnhLcmarNdedR1De2Pft5YiWi6yrLwkw1WBALEXEs3y",
       "active": true,
-      "last_checked_at": 1790322821,
-      "last_success_at": 1790322821,
+      "last_checked_at": 1790408812,
+      "last_success_at": 1790408812,
       "consecutive_failures": 0
     }
   ]
