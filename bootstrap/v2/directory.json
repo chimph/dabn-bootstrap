@@ -1,14 +1,14 @@
 {
   "payload": {
     "schema": 2,
-    "issued_at": 1792654864,
-    "expires_at": 1792827664,
+    "issued_at": 1792740991,
+    "expires_at": 1792913791,
     "seeds": []
   },
   "signatures": [
     {
       "key_id": "official-2026-01",
-      "signature": "eed88a8c34564f38681af2cb75143c870c572073d886f366bb79ade77d10f4ae0eda492d089f728a1a0a54e23fd4cfc6682f78767d90980c8d921f4c1621b308"
+      "signature": "c6a862d455253be1de99ddcbb7e1744b8460d84cc6c66b1a8df1a1b5f55fbbe4e5bdf9fb9bb6e2f04e5383662cb86fe522cd6fc83c757b786fc1b39f139bba02"
     }
   ]
 }
